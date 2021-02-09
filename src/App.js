@@ -1,54 +1,55 @@
 import ItemTable from "./ItemTable";
 import { useState, useEffect } from "react";
+import CourseForm from "./component/courseForm";
 
 function App() {
   //add useState for all state variables
 
+  const [person, setPerson] = useState([]);
+
   //load locationStorage
   useEffect(() => {
-    const items = localStorage.getItem("items");
-    // ...
+    if (localStorage.getItem("items") != null) {
+      const items = localStorage.getItem("items");
+      const data = JSON.parse(items);
+      setPerson(data);
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(person));
+  }, [person.length]);
+
+  function renderPerson() {
+    return person.map((value) => {
+      return (
+        <ItemTable
+          name={value.name}
+          gender={value.gender}
+          age={value.age}
+          key={Math.random()}
+        />
+      );
+    });
+  }
 
   return (
     <div className="card" style={{ width: 400 }}>
       <div className="card-content">
         <p className="is-4 title has-text-centered">Add Person</p>
-        <div className="field">
-          <label className="label">Name</label>
-          <input
-            className="input"
-            type="text"
-            placeholder="e.q John Smith"
-            //update related state based on event
-          ></input>
-        </div>
 
-        <div className="field">
-          <label className="label">Gender</label>
-          <select className="input" type="text" placeholder="Please select ..">
-            <option value="" disabled selected hidden>
-              -- Select Gender --
-            </option>
-            <option>Male</option>
-            <option>Female</option>
-          </select>
+        <div>
+          <CourseForm setPerson={setPerson} person={person} />
         </div>
-
-        <div className="field">
-          <label className="label">Age</label>
-          <input className="input" type="number" placeholder="e.q 30"></input>
-        </div>
-
-        <button className="button is-primary is-fullwidth">Submit</button>
 
         <div className="mb-4"></div>
 
         {/* display tables for all persons */}
         <p className="is-4 title has-text-centered">Person List</p>
         {/* sample table */}
-        <ItemTable name={"Bob"} gender={"Male"} age={"50"} />
-        <p>Your name and code here</p>
+        {renderPerson()}
+        {/* <ItemTable name={"Bob"} gender={"Male"} age={"50"} /> */}
+        <p>TOH HONG LENG 620610819</p>
       </div>
     </div>
   );
