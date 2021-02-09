@@ -22,15 +22,12 @@ function App() {
 
   function renderPerson() {
     return person.map((value) => {
-      return (
-        <ItemTable
-          name={value.name}
-          gender={value.gender}
-          age={value.age}
-          key={Math.random()}
-        />
-      );
+      return <ItemTable {...value} key={Math.random()} />;
     });
+  }
+
+  function clearLocal() {
+    localStorage.clear();
   }
 
   return (
@@ -48,8 +45,8 @@ function App() {
         <p className="is-4 title has-text-centered">Person List</p>
         {/* sample table */}
         {renderPerson()}
-        {/* <ItemTable name={"Bob"} gender={"Male"} age={"50"} /> */}
         <p>TOH HONG LENG 620610819</p>
+        {/* <button onClick={clearLocal}>CLEAR</button> */}
       </div>
     </div>
   );
